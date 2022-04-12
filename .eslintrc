@@ -1,0 +1,3 @@
+{
+  "extends": ["@fullstacksjs", "@fullstacksjs/eslint-config/jest"]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "nored",
+  "version": "1.0.0",
+  "description": "redis-client",
+  "main": "./build/nored.js",
+  "keywords": [
+    "redis",
+    "typescript",
+    "redis-client",
+    "nored",
+    "Nored"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahdiazizzadeh/nored.git"
+  },
+  "scripts": {
+    "prettier": "npx prettier -w ."
+  },
+  "author": "mahdiazizzadeh",
+  "license": "MIT",
+  "devDependencies": {
+    "@fullstacksjs/eslint-config": "^7.2.1",
+    "@types/node": "^17.0.5",
+    "eslint": "^8.10.0",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.6.2"
+  },
+  "homepage": "https://github.com/mahdiazizzadeh/nored",
+  "bugs": {
+    "url": "https://github.com/mahdiazizzadeh/nored/issues",
+    "email": "yasermahdiazizzadeh@gmail.com"
+  }
+}
