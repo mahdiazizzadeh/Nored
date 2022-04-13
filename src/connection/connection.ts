@@ -2,11 +2,11 @@ import { createConnection, Socket } from "net";
 import { connect } from "tls";
 
 import type {
-    IconnectioOptions,
+    IconnectioOptions, Iconnect
 } from "../interface/connection.interface";
 
 
-class Connect {
+class Connect implements Iconnect {
     constructor(private readonly connectionOpt: IconnectioOptions) { }
 
     public getConnection(): Socket {
@@ -30,6 +30,7 @@ class Connect {
             host: this.connectionOpt.host || "localhost",
         });
     }
+
 }
 
 

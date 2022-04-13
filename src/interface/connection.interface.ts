@@ -1,6 +1,8 @@
+import type { Socket } from "net";
+
 interface Itls {
-  key?: any;
-  cert?: any;
+  key?: string;
+  cert?: string;
 }
 
 interface IconnectioOptions extends Itls {
@@ -10,4 +12,8 @@ interface IconnectioOptions extends Itls {
   timeOut?: number;
 }
 
-export { IconnectioOptions };
+interface Iconnect {
+  getConnection(): Socket;
+}
+
+export { Iconnect, IconnectioOptions };
