@@ -5,17 +5,16 @@ import type {
     IconnectioOptions, Iconnect
 } from "../interface/connection.interface";
 
-
 class Connect implements Iconnect {
     constructor(private readonly connectionOpt: IconnectioOptions) { }
 
     public getConnection(): Socket {
         if (this.connectionOpt.cert && this.connectionOpt.key)
-            return this.getTlsConnection();
-        return this.getTcpConnection();
+            return this.getSecureSocket();
+        return this.getSocket();
     }
 
-    private getTlsConnection(): Socket {
+    private getSecureSocket(): Socket {
         return connect({
             port: this.connectionOpt.port,
             host: this.connectionOpt.host || "localhost",
@@ -24,13 +23,12 @@ class Connect implements Iconnect {
         });
     }
 
-    private getTcpConnection(): Socket {
+    private getSocket(): Socket {
         return createConnection({
             port: this.connectionOpt.port,
             host: this.connectionOpt.host || "localhost",
         });
     }
-
 }
 
 

@@ -5,7 +5,13 @@
     "strict": true,
     "esModuleInterop": true,
     "declaration": true,
-    "outDir": "./build",
-    "rootDir": "./src"
-  }
+  },
+  "include": [
+    "./src/**/*",
+    "./test/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+  ]
 }
