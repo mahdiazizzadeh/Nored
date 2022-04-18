@@ -1,14 +1,12 @@
 import type { Socket } from "net";
-import { EventEmitter } from "stream";
 import Connect from "../connection/connection";
 import { IconnectioOptions } from "../interface/connection.interface";
 import { Reply } from "../types/callback.type";
-import Decoder from "../util/decoder";
+import Encoder from "../util/encoder";
 import Queue from "../util/queue";
 
-const event: EventEmitter = new EventEmitter();
 
-const { convertToWritble } = new Decoder();
+const { convertToWritble } = new Encoder();
 
 class Client {
     private readonly socket: Socket;
