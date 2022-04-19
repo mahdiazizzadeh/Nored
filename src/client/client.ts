@@ -2,11 +2,13 @@ import type { Socket } from "net";
 import Connect from "../connection/connection";
 import { IconnectioOptions } from "../interface/connection.interface";
 import { Reply } from "../types/callback.type";
+import Decoder from "../util/decoder";
 import Encoder from "../util/encoder";
 import Queue from "../util/queue";
 
-
 const { convertToWritble } = new Encoder();
+
+const decoder: Decoder = new Decoder();
 
 class Client {
     private readonly socket: Socket;
@@ -21,6 +23,7 @@ class Client {
             port: 6379, host: "localhost"
         };
         this.socket = new Connect(connectionOpt).getConnection();
+        this.socket.setEncoding("utf-8");
 
         if (connectionOpt.timeOut) this.socket.setTimeout(connectionOpt.timeOut);
         if (connectionOpt.password) this.authToRedis();
@@ -55,8 +58,9 @@ class Client {
             console.info("socket Connection Timeout");
             this.closeConnection();
         });
-        this.socket.on("data", (data: Buffer) => {
-            this.reply(false, data.toString());
+        this.socket.on("data", (data: string) => {
+            decoder.decodeResult(data);
+            this.reply(decoder.getError, decoder.getResponse);
             this.isPending = false;
             if (this.queue.getSize > 0) {
                 this.sendRquest(this.queue.shift() as Buffer);
