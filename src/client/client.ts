@@ -2,9 +2,9 @@ import type { Socket } from "net";
 import Connect from "../connection/connection";
 import { IconnectioOptions } from "../interface/connection.interface";
 import { Reply } from "../types/callback.type";
+import { Error } from "../types/replyError.type";
 import Decoder from "../util/decoder";
 import Encoder from "../util/encoder";
-import Queue from "../util/queue";
 
 const { convertToWritble } = new Encoder();
 
@@ -12,13 +12,9 @@ const decoder: Decoder = new Decoder();
 
 class Client {
     private readonly socket: Socket;
-    private reply: Reply = (error, reply) => { };
-    private readonly queue: Queue<Buffer>;
-    private isPending: boolean = false;
+    private reply: Reply = (error: Error, reply: any) => { };
 
     constructor(private readonly connectionOpt?: IconnectioOptions) {
-        this.queue = new Queue<Buffer>();
-
         if (!connectionOpt) connectionOpt = {
             port: 6379, host: "localhost"
         };
@@ -32,15 +28,8 @@ class Client {
     }
 
     public sendRquest<T>(buf: Buffer): Promise<T> {
-        return new Promise((resolve, reject) => {
-            if (!this.isPending) {
-                this.socket.write(buf);
-                this.reply = (err, reply) => { err ? reject(err) : resolve(reply) };
-                this.isPending = true;
-            } else {
-                this.queue.add(buf as Buffer);
-            }
-        });
+        this.socket.write(buf);
+        return new Promise<T>(resolve => this.reply = (err, reply) => resolve(err || reply));
     };
 
     private authToRedis() {
@@ -61,10 +50,6 @@ class Client {
         this.socket.on("data", (data: string) => {
             decoder.decodeResult(data);
             this.reply(decoder.getError, decoder.getResponse);
-            this.isPending = false;
-            if (this.queue.getSize > 0) {
-                this.sendRquest(this.queue.shift() as Buffer);
-            }
         });
     }
 }

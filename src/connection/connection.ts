@@ -1,5 +1,5 @@
 import { createConnection, Socket } from "net";
-import { connect } from "tls";
+import { connect, TLSSocket } from "tls";
 
 import type {
     IconnectioOptions, Iconnect
@@ -8,13 +8,13 @@ import type {
 class Connect implements Iconnect {
     constructor(private readonly connectionOpt: IconnectioOptions) { }
 
-    public getConnection(): Socket {
+    public getConnection(): Socket | TLSSocket {
         if (this.connectionOpt.cert && this.connectionOpt.key)
             return this.getSecureSocket();
         return this.getSocket();
     }
 
-    private getSecureSocket(): Socket {
+    private getSecureSocket(): Socket | TLSSocket {
         return connect({
             port: this.connectionOpt.port,
             host: this.connectionOpt.host || "localhost",
@@ -23,7 +23,7 @@ class Connect implements Iconnect {
         });
     }
 
-    private getSocket(): Socket {
+    private getSocket(): Socket | TLSSocket {
         return createConnection({
             port: this.connectionOpt.port,
             host: this.connectionOpt.host || "localhost",

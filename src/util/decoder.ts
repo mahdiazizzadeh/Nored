@@ -12,7 +12,6 @@ class Decoder {
 
         const firstByte: string = data.slice(0, 1);
 
-
         switch (firstByte) {
             case "+":
                 this.simpleString();
@@ -36,13 +35,12 @@ class Decoder {
 
             default: this.error = null; this.response = null;
                 break;
-
         }
     }
 
     private simpleString() {
         this.error = null;
-        this.result.slice(1);
+        this.response = this.result.slice(1);
     }
 
     private respError() {
@@ -55,13 +53,12 @@ class Decoder {
 
     private respInteger() {
         this.error = null;
-        this.response = this.result.slice(1);
+        this.response = +this.result.slice(1);
     }
 
     private bulkString() {
         const bulkString = this.result.split("\r\n");
         bulkString.pop();
-
         if (bulkString[0] === "$-1") {
             this.error = null;
             this.response = null;
@@ -81,13 +78,18 @@ class Decoder {
             this.response = null;
         } else {
             for (let i = 1; i < arr.length && this.response.length < +arr[0].slice(1); i++) {
-                if ("$-1" === arr[i].slice(0, 3)) {
+                if (arr[i].slice(0, 3) === "$-1") {
                     this.response.push(null);
-                } else if (typeof arr[i + 1] === "undefined") {
-                    break;
-                } else {
-                    this.response.push(arr[++i]);
+                } else if (arr[i].slice(0, 1) === ":") {
+                    this.response.push(+arr[i].slice(1));
+                } else if (arr[i].slice(0, 1) === "+") {
+                    this.response.push(arr[i].slice(1));
                 }
+                else if (arr[i].slice(0, 1) === "-") {
+                    this.response.push({ error: true, errorMessage: arr[i].slice(1) });
+                }
+                else if (arr[i + 1] === undefined) break;
+                else this.response.push(arr[++i]);
             }
         }
     }
