@@ -1,5 +1,5 @@
 {
-  "name": "nored",
+  "name": "Nored",
   "version": "1.0.0",
   "description": "redis-client",
   "main": "./build/nored.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mahdiazizzadeh/nored.git"
+    "url": "git+https://github.com/mahdiazizzadeh/Nored.git"
   },
   "scripts": {
     "test": "jest .",
@@ -31,9 +31,9 @@
     "ts-node": "^10.4.0",
     "typescript": "^4.6.2"
   },
-  "homepage": "https://github.com/mahdiazizzadeh/nored",
+  "homepage": "https://github.com/mahdiazizzadeh/Nored",
   "bugs": {
-    "url": "https://github.com/mahdiazizzadeh/nored/issues",
+    "url": "https://github.com/mahdiazizzadeh/Nored/issues",
     "email": "yasermahdiazizzadeh@gmail.com"
   }
 }

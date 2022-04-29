@@ -1,17 +1,46 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES2016",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
     "strict": true,
-    "esModuleInterop": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "rootDir": "./src",
+    "outDir": "./build",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "baseUrl": "./",
+    "paths": {
+      "tests/*": [
+        "./test/*"
+      ],
+    },
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+    ],
     "declaration": true,
+    "declarationDir": "./types",
+    "declarationMap": true,
+    "removeComments": true,
+    "allowJs": false,
+    "checkJs": false,
+    "skipLibCheck": true
   },
-  "include": [
-    "./src/**/*",
-    "./test/**/*"
-  ],
   "exclude": [
-    "node_modules",
-    "build",
+    "./test",
+    "./node_modules",
+    "./build",
+    "./src/redisWriterForTest.ts"
   ]
 }
