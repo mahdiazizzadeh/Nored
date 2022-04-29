@@ -1,0 +1,2 @@
+# Nored
+redis-client
